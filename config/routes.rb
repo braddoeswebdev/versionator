@@ -1,4 +1,6 @@
 Versionator::Application.routes.draw do
+  resources :sections
+
   resources :articles
 
   resources :issues
