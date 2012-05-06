@@ -28,12 +28,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Versionator</a>
+          <a class="brand" href="/">Versionator</a>
           <div class="container nav-collapse">
             <ul class="nav">
-              <li><%= link_to "Link1", "/path1"  %></li>
-              <li><%= link_to "Link2", "/path2"  %></li>
-              <li><%= link_to "Link3", "/path3"  %></li>
+              <li><%= link_to "Issues", "/issues"  %></li>
+              <li><%= link_to "Articles", "/articles"  %></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -43,25 +42,23 @@
     <div class="container">
       <div class="content">
         <div class="row">
-           <div class="span9">
-              <%= yield %>
-            </div>
-            <div class="span3">
+	    <div class="span4">
               <div class="well sidebar-nav">
-                <h3>Sidebar</h3>
+                <h3>Toolbar</h3>
                 <ul class="nav nav-list">
-                  <li class="nav-header">Sidebar</li>
-                  <li><%= link_to "Link1", "/path1"  %></li>
-                  <li><%= link_to "Link2", "/path2"  %></li>
-                  <li><%= link_to "Link3", "/path3"  %></li>
+		<%= content_for :toolbar if content_for?(:toolbar) %>
                 </ul>
               </div><!--/.well -->
             </div><!--/span-->
+
+           <div class="span8">
+              <%= yield %>
+            </div>
         </div><!--/row-->
       </div><!--/content-->
 
       <footer>
-        <p>&copy; Company 2012</p>
+        <p>&copy; Brad Thompson 2012</p>
       </footer>
 
     </div> <!-- /container -->
