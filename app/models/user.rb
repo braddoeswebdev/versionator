@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_many :versions
   has_many :tags
   has_many :issues, :through => :tags
+  has_many :comments
 
   attr_accessor :password
   before_save :prepare_password
