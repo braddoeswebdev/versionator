@@ -31,9 +31,12 @@
           <a class="brand" href="/">Versionator</a>
           <div class="container nav-collapse">
             <ul class="nav">
+	    <% if current_user %>
+              <li><%= link_to "Log Out", logout_path %></li>
               <li><%= link_to "Issues", "/issues"  %></li>
               <li><%= link_to "Articles", "/articles"  %></li>
             </ul>
+	    <% end %>
           </div><!--/.nav-collapse -->
         </div>
       </div>
