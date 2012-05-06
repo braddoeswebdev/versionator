@@ -1,4 +1,6 @@
 Versionator::Application.routes.draw do
+  get "welcome/index"
+
   resources :versions
 
   resources :sections
@@ -6,10 +8,6 @@ Versionator::Application.routes.draw do
   resources :articles
 
   resources :issues
-
-  match 'user/edit' => 'users#edit', :as => :edit_current_user
-
-  match 'signup' => 'users#new', :as => :signup
 
   match 'logout' => 'sessions#destroy', :as => :logout
 
@@ -68,7 +66,7 @@ Versionator::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
+  root :to => 'welcome#index'
 
   # See how all your routes lay out with "rake routes"
 
