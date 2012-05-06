@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Content:</b>
+  <%= @version.content %>
+</p>
+
+<p>
+  <b>Section:</b>
+  <%= @version.section_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @version.user_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_version_path(@version) %> |
+<%= link_to 'Back', versions_path %>
