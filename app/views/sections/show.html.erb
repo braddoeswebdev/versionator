@@ -2,7 +2,7 @@
 
 <div class="hero-unit">
 <% if @section.primary %>
-<p><%= @section.primary.content%></p>
+<%= format @section.primary.content%>
 <% else %>
 <p>Nobody has promoted a version yet!</p>
 <% end %>
@@ -12,15 +12,19 @@
 <% @section.versions.each do |version| %>
 <table class="table table-condensed table-striped">
 	<tr>
-		<td rowspan="2">
-			<%= link_to "Duplicate", duplicate_article_section_version_path(@article.id, @section.id), :class => 'btn btn-mini btn-success' %>
+		<td rowspan="2" width="5%">
+			<%= link_to "Duplicate", duplicate_article_section_version_path(@article.id, @section.id, version.id), :class => 'btn btn-mini btn-success' %>
 			<%= link_to "Destroy", article_section_version_path(@article.id, @section.id, version.id), :method => :delete, :class => 'btn btn-mini btn-warning', :confirm => "Are you sure?" %>
+			<% if version == @section.primary %>
+			<%= link_to "Promoted", '#', :class => 'btn btn-mini btn-primary'%>
+			<% else %>
 			<%= link_to "Promote", promote_article_section_version_path(@article.id, @section.id, version.id), :class => 'btn btn-mini btn-info' %>
+			<% end %>
 		</td>
 		<td>Created by <%= version.user.username %> <%= distance_of_time_in_words_to_now version.created_at %> ago.</td>
 	</tr>
 	<tr>
-		<td><%= version.content %></td>
+		<td><pre><%= version.content %></pre></td>
 	</tr>
 </table>
 <% end %>

@@ -1,5 +1,6 @@
 Versionator::Application.routes.draw do
   get "welcome/index"
+  get "welcome/generate"
 
   resources :articles do
 	collection do

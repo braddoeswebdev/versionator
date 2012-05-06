@@ -15,4 +15,8 @@ def twitterized_type(type)
   end
 end
 
+def format(str)
+	sanitize(BlueCloth.new(str).to_html)
+end
+
 end

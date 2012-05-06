@@ -22,7 +22,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
-
+gem 'bluecloth'
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby'
 gem 'mocha'

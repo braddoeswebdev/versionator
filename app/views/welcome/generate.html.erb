@@ -1,0 +1,9 @@
+<% ai, si = 0, 0 %>
+<% @articles.each do |article|%>
+	<h2>Article <%= ai += 1 %>: <%= article.name %></h2>
+	<% si = 0 %>
+	<% article.sections.each do |section| %>
+		<h3>Section <%= si += 1 %>: <%= section.title %></h3>
+		<%= format(section.primary.content) if section.primary %>
+	<% end %>
+<% end %>

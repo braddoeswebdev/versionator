@@ -2,7 +2,7 @@
 
 <div class="hero-unit">
 <h2>Submitted by <%= @issue.submitter.username %> <%= distance_of_time_in_words_to_now @issue.created_at %> ago:</h2>
-<p><%= @issue.content %></p>
+<%= format(@issue.content) %>
 </div>
 <p><b>Current Status: </b><%= @issue.status %></p>
 
@@ -25,6 +25,9 @@
 <%= f.text_field :status %><br/>
 <%= f.submit "OK", :class => 'btn btn-mini btn-info' %>
 <% end %>
+<br/>
+<br/>
+<%= link_to '<i class="icon-fire"></i>Nuke Issue'.html_safe, @issue, :method => "delete", :class => 'btn btn-danger btn-large', :confirm => "Are you sure?  Only nuke tickets if they are duplicates or otherwise redundant or unnecessary!!" %>
 </td>
 </tr>
 </table>

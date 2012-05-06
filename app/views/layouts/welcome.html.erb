@@ -48,33 +48,7 @@
     <div class="container">
       <div class="content">
         <div class="row">
-	    <div class="span4">
-	    <% flash.each do |type, message| %>
-		<div class="alert alert-<%= twitterized_type type %>" data-alert="alert">
-			<p><%= message %></p>
-		</div>
-	    <% end %>
-
-              <div class="well sidebar-nav" id="sidebar">
-                <h3>Tools</h3>
-                <ul class="nav nav-list">
-		<%= content_for :toolbar if content_for?(:toolbar) %>
-                </ul>
-		<h3>Document</h3>
-		<ul class="nav nav-list">
-		<% Article.order(:position).all.each do |a| %>
-			<li><%= link_to a.name, a %></li>
-			<ul>
-				<% a.sections.order(:position).each do |s| %>
-					<li><%= link_to s.title, [a,s]%></li>
-				<% end %>
-			</ul>	
-		<% end %>
-		</ul>
-              </div><!--/.well -->
-            </div><!--/span-->
-
-           <div class="span8">
+           <div class="span12">
               <%= yield %>
             </div>
         </div><!--/row-->
