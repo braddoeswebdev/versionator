@@ -1,5 +1,4 @@
-<% title "Sign up" %>
-
-<p>Already have an account? <%= link_to "Log in", login_path %>.</p>
-
-<%= render 'form' %>
+<%- model_class = @user.class -%>
+<h1><%=t '.title', :default => t('helpers.titles.new', :model => model_class.model_name.human,
+                               :default => "New #{model_class.model_name.human}") %></h1>
+<%= render :partial => 'form' %>

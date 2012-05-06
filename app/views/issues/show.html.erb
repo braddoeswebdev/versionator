@@ -1,20 +1,27 @@
-<p id="notice"><%= notice %></p>
+<%- model_class = @issue.class -%>
+<h1><%=t '.title', :default => model_class.model_name.human %></h1>
 
 <p>
-  <b>Title:</b>
+  <strong><%= model_class.human_attribute_name(:title) %>:</strong><br>
   <%= @issue.title %>
 </p>
-
 <p>
-  <b>Content:</b>
+  <strong><%= model_class.human_attribute_name(:content) %>:</strong><br>
   <%= @issue.content %>
 </p>
-
 <p>
-  <b>Status:</b>
+  <strong><%= model_class.human_attribute_name(:status) %>:</strong><br>
   <%= @issue.status %>
 </p>
 
-
-<%= link_to 'Edit', edit_issue_path(@issue) %> |
-<%= link_to 'Back', issues_path %>
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              issues_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_issue_path(@issue), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              issue_path(@issue),
+              :method => 'delete',
+              :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')),
+              :class => 'btn btn-danger' %>
+</div>

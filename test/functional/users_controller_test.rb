@@ -1,51 +1,49 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
-  def test_new
+  setup do
+    @user = users(:one)
+  end
+
+  test "should get index" do
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:users)
+  end
+
+  test "should get new" do
     get :new
-    assert_template 'new'
+    assert_response :success
   end
 
-  def test_create_invalid
-    User.any_instance.stubs(:valid?).returns(false)
-    post :create
-    assert_template 'new'
+  test "should create user" do
+    assert_difference('User.count') do
+      post :create, user: {  }
+    end
+
+    assert_redirected_to user_path(assigns(:user))
   end
 
-  def test_create_valid
-    User.any_instance.stubs(:valid?).returns(true)
-    post :create
-    assert_redirected_to root_url
-    assert_equal assigns['user'].id, session['user_id']
+  test "should show user" do
+    get :show, id: @user
+    assert_response :success
   end
 
-  def test_edit_without_user
-    get :edit, :id => "ignored"
-    assert_redirected_to login_url
+  test "should get edit" do
+    get :edit, id: @user
+    assert_response :success
   end
 
-  def test_edit
-    @controller.stubs(:current_user).returns(User.first)
-    get :edit, :id => "ignored"
-    assert_template 'edit'
+  test "should update user" do
+    put :update, id: @user, user: {  }
+    assert_redirected_to user_path(assigns(:user))
   end
 
-  def test_update_without_user
-    put :update, :id => "ignored"
-    assert_redirected_to login_url
-  end
+  test "should destroy user" do
+    assert_difference('User.count', -1) do
+      delete :destroy, id: @user
+    end
 
-  def test_update_invalid
-    @controller.stubs(:current_user).returns(User.first)
-    User.any_instance.stubs(:valid?).returns(false)
-    put :update, :id => "ignored"
-    assert_template 'edit'
-  end
-
-  def test_update_valid
-    @controller.stubs(:current_user).returns(User.first)
-    User.any_instance.stubs(:valid?).returns(true)
-    put :update, :id => "ignored"
-    assert_redirected_to root_url
+    assert_redirected_to users_path
   end
 end
