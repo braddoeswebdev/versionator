@@ -1,38 +1,33 @@
-<%- model_class = Version.new.class -%>
-<h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:content) %></th>
-      <th><%= model_class.human_attribute_name(:section_id) %></th>
-      <th><%= model_class.human_attribute_name(:user_id) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @versions.each do |version| %>
-      <tr>
-        <td><%= link_to version.id, version_path(version) %></td>
-        <td><%= version.content %></td>
-        <td><%= version.section_id %></td>
-        <td><%= version.user_id %></td>
-        <td><%=l version.created_at %></td>
-        <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_version_path(version), :class => 'btn btn-mini' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      version_path(version),
-                      :method => :delete,
-                      :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')),
-                      :class => 'btn btn-mini btn-danger' %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<h1>Article <%= @article.position %>, Section <%= @section.position %> - <%= @article.name %>: <%= @section.title %></h1>
 
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_version_path,
-            :class => 'btn btn-primary' %>
+<div class="hero-unit">
+<% if @section.primary %>
+<p><%= @section.primary.content%></p>
+<% else %>
+<p>Nobody has promoted a version yet!</p>
+<% end %>
+</div>
+
+<h2>All Versions</h2>
+<% @section.versions.each do |version| %>
+<table class="table table-condensed">
+	<tr>
+		<td>
+			<%= link_to "Duplicate", new_article_section_version_path(@article, @section), :class => 'btn btn-mini btn-success' %>
+			<%= link_to "Destroy", article_section_version_path(@article, @section, @version), :method => destroy, :class => 'btn btn-mini btn-warning', :confirm => "Are you sure?" %>
+			<%= link_to "Promote", promote_article_section_version_path(@article, @section, @version), :class => 'btn btn-mini btn-info' %>
+		</td>
+		<td><%= version.content %></td>
+	</tr>
+</table>
+<% end %>
+
+<h2>New Version</h2>
+<%= form_for [@article, @section, @section.versions.build] do |f| %>
+	<%= f.text_area :content, :size => '60x4' %>
+	<%= f.submit "Create", :class => 'btn btn-large btn-success' %>
+<% end %>
+
+<% content_for :toolbar do %>
+	<li><%= link_to "Edit Section", edit_article_section_path(@article, @section) %></li>
+<% end %>

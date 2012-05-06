@@ -2,7 +2,9 @@ class VersionsController < ApplicationController
   # GET /versions
   # GET /versions.json
   def index
-    @versions = Version.all
+    @article = Article.find params[:article_id]
+    @section = Section.find params[:section_id]
+    @versions = @section.versions
 
     respond_to do |format|
       format.html # index.html.erb
@@ -10,21 +12,12 @@ class VersionsController < ApplicationController
     end
   end
 
-  # GET /versions/1
-  # GET /versions/1.json
-  def show
-    @version = Version.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @version }
-    end
-  end
-
   # GET /versions/new
   # GET /versions/new.json
   def new
-    @version = Version.new
+    @article = Article.find params[:article_id]
+    @section = Section.find params[:section_id]
+    @version = @section.versions.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -32,38 +25,21 @@ class VersionsController < ApplicationController
     end
   end
 
-  # GET /versions/1/edit
-  def edit
-    @version = Version.find(params[:id])
-  end
-
   # POST /versions
   # POST /versions.json
   def create
     @version = Version.new(params[:version])
+    @section = Section.find params[:section_id]
+    @version.section = @section
+
+    @version.user = current_user
 
     respond_to do |format|
       if @version.save
-        format.html { redirect_to @version, notice: 'Version was successfully created.' }
-        format.json { render json: @version, status: :created, location: @version }
+        format.html { redirect_to article_section_path(@section.article, @section), notice: 'Version was successfully created.' }
+        format.json { render json: @version.section, status: :created, location: @version }
       else
         format.html { render action: "new" }
-        format.json { render json: @version.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PUT /versions/1
-  # PUT /versions/1.json
-  def update
-    @version = Version.find(params[:id])
-
-    respond_to do |format|
-      if @version.update_attributes(params[:version])
-        format.html { redirect_to @version, notice: 'Version was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
         format.json { render json: @version.errors, status: :unprocessable_entity }
       end
     end
@@ -73,11 +49,32 @@ class VersionsController < ApplicationController
   # DELETE /versions/1.json
   def destroy
     @version = Version.find(params[:id])
+    @section = @version.section
     @version.destroy
 
     respond_to do |format|
-      format.html { redirect_to versions_url }
+      format.html { redirect_to article_section_path(@section.article, @section) }
       format.json { head :no_content }
     end
+  end
+
+  def duplicate
+    @article = Article.find params[:article_id]
+    @section = Section.find params[:section_id]
+    @original = Version.find params[:id]
+    @version = Version.new
+    @version.content = @original.content
+    @version.section = @original.section
+    render action: "new"
+  end
+
+  def promote
+    @article = Article.find params[:article_id]
+    @section = Section.find params[:section_id]
+    @version = Version.find params[:id]
+
+    @section.primary = @version
+    @section.save
+    redirect_to article_section_path(@article.id, @section.id), :notice => "Promoted version to primary."
   end
 end

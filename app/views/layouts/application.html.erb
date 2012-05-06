@@ -13,6 +13,7 @@
 
     <%= stylesheet_link_tag "application", :media => "all" %>
 
+    <%= javascript_include_tag "application" %>
     <link href="images/favicon.ico" rel="shortcut icon">
     <link href="images/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="images/apple-touch-icon-72x72.png" rel="apple-touch-icon" sizes="72x72">
@@ -52,6 +53,11 @@
 		<%= content_for :toolbar if content_for?(:toolbar) %>
                 </ul>
               </div><!--/.well -->
+	    <% flash.each do |type, message| %>
+		<div class="alert alert-<%= twitterized_type type %>" data-alert="alert">
+			<p><%= message %></p>
+		</div>
+	    <% end %>
             </div><!--/span-->
 
            <div class="span8">
@@ -64,7 +70,6 @@
     <!-- Javascripts
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <%= javascript_include_tag "application" %>
 
   </body>
 </html>

@@ -1,14 +1,9 @@
-<%= form_for @section, :html => { :class => 'form-horizontal' } do |f| %>
+<%= form_for [@article, @section], :html => { :class => 'form-horizontal' } do |f| %>
+<%= f.hidden_field :article_id, :value => @article.id %>
   <div class="control-group">
     <%= f.label :title, :class => 'control-label' %>
     <div class="controls">
       <%= f.text_field :title, :class => 'text_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :article_id, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.number_field :article_id, :class => 'number_field' %>
     </div>
   </div>
 

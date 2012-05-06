@@ -1,11 +1,22 @@
 Versionator::Application.routes.draw do
   get "welcome/index"
 
-  resources :versions
-
-  resources :sections
-
-  resources :articles
+  resources :articles do
+	collection do
+		post 'sort'
+	end
+	resources :sections do
+		resources :versions do
+			member do
+				get 'promote'
+				get 'duplicate'
+			end
+		end 
+		collection do
+			post 'sort'
+		end
+	end
+  end
 
   resources :issues do
 	resources :comments
@@ -18,6 +29,7 @@ Versionator::Application.routes.draw do
   resources :sessions
 
   resources :users
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

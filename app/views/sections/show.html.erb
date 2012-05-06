@@ -1,23 +1,37 @@
-<%- model_class = @section.class -%>
-<h1><%=t '.title', :default => model_class.model_name.human %></h1>
+<h1>Article <%= @article.position %>, Section <%= @section.position %> - <%= @article.name %>: <%= @section.title %></h1>
 
-<p>
-  <strong><%= model_class.human_attribute_name(:title) %>:</strong><br>
-  <%= @section.title %>
-</p>
-<p>
-  <strong><%= model_class.human_attribute_name(:article_id) %>:</strong><br>
-  <%= @section.article_id %>
-</p>
-
-<div class="form-actions">
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-              sections_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_section_path(@section), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              section_path(@section),
-              :method => 'delete',
-              :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')),
-              :class => 'btn btn-danger' %>
+<div class="hero-unit">
+<% if @section.primary %>
+<p><%= @section.primary.content%></p>
+<% else %>
+<p>Nobody has promoted a version yet!</p>
+<% end %>
 </div>
+
+<h2>All Versions</h2>
+<% @section.versions.each do |version| %>
+<table class="table table-condensed table-striped">
+	<tr>
+		<td rowspan="2">
+			<%= link_to "Duplicate", duplicate_article_section_version_path(@article.id, @section.id), :class => 'btn btn-mini btn-success' %>
+			<%= link_to "Destroy", article_section_version_path(@article.id, @section.id, version.id), :method => :delete, :class => 'btn btn-mini btn-warning', :confirm => "Are you sure?" %>
+			<%= link_to "Promote", promote_article_section_version_path(@article.id, @section.id, version.id), :class => 'btn btn-mini btn-info' %>
+		</td>
+		<td>Created by <%= version.user.username %> <%= distance_of_time_in_words_to_now version.created_at %> ago.</td>
+	</tr>
+	<tr>
+		<td><%= version.content %></td>
+	</tr>
+</table>
+<% end %>
+
+<h2>New Version</h2>
+<%= form_for [@article, @section, @section.versions.build] do |f| %>
+	<%= f.hidden_field :user_id, :value => current_user.id %>
+	<%= f.text_area :content, :size => '60x4' %>
+	<%= f.submit "Create", :class => 'btn btn-large btn-success' %>
+<% end %>
+
+<% content_for :toolbar do %>
+	<li><%= link_to "Edit Section", edit_article_section_path(@article, @section) %></li>
+<% end %>

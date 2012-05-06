@@ -1,10 +1,5 @@
-<%- model_class = @article.class -%>
-<h1><%=t '.title', :default => model_class.model_name.human %></h1>
+<h1>Article <%= @article.position %> - <%= @article.name %></h1>
 
-<p>
-  <strong><%= model_class.human_attribute_name(:name) %>:</strong><br>
-  <%= @article.name %>
-</p>
 
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),

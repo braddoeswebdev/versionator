@@ -3,4 +3,5 @@ class Section < ActiveRecord::Base
   
   belongs_to :article
   has_many :versions
+  belongs_to :primary, :class_name => "Version"
 end

@@ -14,11 +14,7 @@ class ArticlesController < ApplicationController
   # GET /articles/1.json
   def show
     @article = Article.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @article }
-    end
+    redirect_to article_sections_path(@article)
   end
 
   # GET /articles/new
@@ -42,6 +38,7 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(params[:article])
 
+    @article.position = 9999 
     respond_to do |format|
       if @article.save
         format.html { redirect_to @article, notice: 'Article was successfully created.' }
@@ -79,5 +76,14 @@ class ArticlesController < ApplicationController
       format.html { redirect_to articles_url }
       format.json { head :no_content }
     end
+  end
+
+  def sort
+	Article.all.each do |spec|
+      if position = params[:articles].index(spec.id.to_s)
+        spec.update_attribute(:position, position + 1) unless spec.position == position + 1
+      end
+    end
+    render :nothing => true, :status => 200
   end
 end
