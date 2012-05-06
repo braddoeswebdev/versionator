@@ -1,4 +1,6 @@
 Versionator::Application.routes.draw do
+  resources :articles
+
   resources :issues
 
   match 'user/edit' => 'users#edit', :as => :edit_current_user
