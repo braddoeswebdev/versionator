@@ -1,27 +1,30 @@
-<%- model_class = @issue.class -%>
-<h1><%=t '.title', :default => model_class.model_name.human %></h1>
+<h1>Issue - <%= @issue.title %></h1>
 
-<p>
-  <strong><%= model_class.human_attribute_name(:title) %>:</strong><br>
-  <%= @issue.title %>
-</p>
-<p>
-  <strong><%= model_class.human_attribute_name(:content) %>:</strong><br>
-  <%= @issue.content %>
-</p>
-<p>
-  <strong><%= model_class.human_attribute_name(:status) %>:</strong><br>
-  <%= @issue.status %>
-</p>
-
-<div class="form-actions">
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-              issues_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_issue_path(@issue), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              issue_path(@issue),
-              :method => 'delete',
-              :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')),
-              :class => 'btn btn-danger' %>
+<div class="hero-unit">
+<h2>Submitted by <%= @issue.submitter.username %> <%= distance_of_time_in_words_to_now @issue.created_at %> ago:</h2>
+<p><%= @issue.content %></p>
 </div>
+<p><b>Current Status: </b><%= @issue.status %></p>
+
+<% if @issue.comments.count > 0 %>
+	<% @issue.comments.each do |comment| %>
+		<%= render :partial => 'comments/show', :locals => {:comment => comment} %>
+	<% end %>
+<% else %>
+<h3>No comments yet!</h3>
+<% end %>
+<table class="table">
+<tr>
+<td>
+<h2>Add a comment</h2>
+<%= render :partial => 'comments/form' %>
+</td>
+<td>
+<h2>Update Status</h2>
+<%= form_for @issue do |f| %>
+<%= f.text_field :status %><br/>
+<%= f.submit "OK", :class => 'btn btn-mini btn-info' %>
+<% end %>
+</td>
+</tr>
+</table>

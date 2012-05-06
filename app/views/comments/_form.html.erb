@@ -1,0 +1,9 @@
+<%= form_for [@issue, Comment.new] do |f| %>
+<%= f.hidden_field :user_id, :value => current_user.id %>
+<%= f.hidden_field :issue_id, :value => @issue.id %>
+
+<p><%= f.text_area :content, :size => "60x4" %></p>
+<%= f.submit "Add Comment", :class => "btn btn-large btn-success" %>
+
+<% end %>
+

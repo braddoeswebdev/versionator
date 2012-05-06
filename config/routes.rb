@@ -7,7 +7,9 @@ Versionator::Application.routes.draw do
 
   resources :articles
 
-  resources :issues
+  resources :issues do
+	resources :comments
+  end
 
   match 'logout' => 'sessions#destroy', :as => :logout
 
