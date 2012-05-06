@@ -43,7 +43,7 @@
       <div class="content">
         <div class="row">
 	    <div class="span4">
-              <div class="well sidebar-nav">
+              <div class="well sidebar-nav" id="sidebar">
                 <h3>Toolbar</h3>
                 <ul class="nav nav-list">
 		<%= content_for :toolbar if content_for?(:toolbar) %>
@@ -56,11 +56,6 @@
             </div>
         </div><!--/row-->
       </div><!--/content-->
-
-      <footer>
-        <p>&copy; Brad Thompson 2012</p>
-      </footer>
-
     </div> <!-- /container -->
 
     <!-- Javascripts
